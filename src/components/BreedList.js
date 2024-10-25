@@ -4,14 +4,24 @@ import axios from 'axios';
 function BreedList({ setSelectedBreed }) {
   const [breeds, setBreeds] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Estado de carregamento
 
   useEffect(() => {
-    axios.get('https://dog.ceo/api/breeds/list/all')
-      .then(response => {
+    const fetchBreeds = async () => {
+      setLoading(true); // Inicia o carregamento
+      try {
+        const response = await axios.get('https://dog.ceo/api/breeds/list/all');
         const sortedBreeds = Object.keys(response.data.message).sort();
         setBreeds(sortedBreeds);
-      })
-      .catch(error => console.error('Erro ao buscar as raças:', error));
+      } catch (error) {
+        console.error('Erro ao buscar as raças:', error);
+        alert('Ocorreu um erro ao buscar as raças. Tente novamente mais tarde.');
+      } finally {
+        setLoading(false); // Finaliza o carregamento
+      }
+    };
+
+    fetchBreeds();
   }, []);
 
   return (
@@ -19,6 +29,7 @@ function BreedList({ setSelectedBreed }) {
       <button onClick={() => setIsOpen(!isOpen)}>
         Escolha uma raça
       </button>
+      {loading && <p>Carregando raças...</p>} {/* Mensagem de carregamento */}
       {isOpen && (
         <ul>
           {breeds.map(breed => (
@@ -36,4 +47,3 @@ function BreedList({ setSelectedBreed }) {
 }
 
 export default BreedList;
-

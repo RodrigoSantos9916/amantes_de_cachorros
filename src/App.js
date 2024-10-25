@@ -14,7 +14,7 @@ function App() {
       <BreedList setSelectedBreed={setSelectedBreed} />
       <ImageGallery breed={selectedBreed} />
       <footer>
-        <p>&copy; 2024 Galeria de Raças de Cachorros. Todos os direitos reservados.</p>
+        <p>© 2024 Galeria de Raças de Cachorros. Todos os direitos reservados.</p>
       </footer>
     </div>
   );
